@@ -34,6 +34,7 @@ public class HealthController : MonoBehaviour
     }
 
     public void updateHearts() {
+
         float currentHearts = this.playerCurrentHealth / 20f; 
         int currentHeartsInt = (int) currentHearts;
 
@@ -41,14 +42,18 @@ public class HealthController : MonoBehaviour
             this.hearts[i].sprite = fullHeart;
         }
 
-        float healthDecimalPart =  currentHearts - currentHeartsInt;
+        float healthDecimalPart = currentHearts - currentHeartsInt;
 
-        if(healthDecimalPart == 0.75f) {
-            this.hearts[currentHeartsInt].sprite = threeQuartersHeart;
-        }else if(healthDecimalPart == 0.5f) {
-            this.hearts[currentHeartsInt].sprite = halfHeart;
-        }else if(healthDecimalPart == 0.25f) {
-            this.hearts[currentHeartsInt].sprite = quarterHeart;
+        if(currentHeartsInt >= 0 && currentHearts < hearts.Length) {
+            if(healthDecimalPart == 0.75f) {
+                this.hearts[currentHeartsInt].sprite = threeQuartersHeart;
+            }else if(healthDecimalPart == 0.5f) {
+                this.hearts[currentHeartsInt].sprite = halfHeart;
+            }else if(healthDecimalPart == 0.25f) {
+                this.hearts[currentHeartsInt].sprite = quarterHeart;
+            }else if(healthDecimalPart == 0) {
+                this.hearts[currentHeartsInt].sprite = emptyHeart;
+            }
         }
     }
 
