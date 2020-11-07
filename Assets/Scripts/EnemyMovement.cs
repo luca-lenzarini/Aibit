@@ -8,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 1f;
     public float movementeSpeed = 5f;
 
+
     //public Animator animator;
     Transform target;
     
@@ -33,11 +34,5 @@ public class EnemyMovement : MonoBehaviour
         // Define the animation it should be using to face the target
         //animator.SetFloat("Horizontal", target.position.x - transform.position.x);
         //animator.SetFloat("Vertical", target.position.y - transform.position.y);
-    }
-
-    private void OnCollisionEnter(Collision other) {
-        if(other.collider.tag == "Player") {
-            Debug.Log("tocou");
-        }    
     }
 }
