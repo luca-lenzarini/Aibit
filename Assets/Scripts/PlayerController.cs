@@ -18,10 +18,22 @@ public class PlayerController : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
+        if(Input.GetButtonDown("attack")) {
+            StartCoroutine(AttackCo());
+        }
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
+    }
+
+    private IEnumerator AttackCo() {
+        animator.SetBool("attacking", true);
+        canMove = false;
+        yield return null;
+        animator.SetBool("attacking", false);
+        yield return new WaitForSeconds(.33f);
+        canMove = true;
     }
 
     void FixedUpdate() {

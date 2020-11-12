@@ -8,7 +8,6 @@ public class Knockback : MonoBehaviour
     bool isColiding = false;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("hit");
 
         if(isColiding) return;
 
@@ -23,37 +22,52 @@ public class Knockback : MonoBehaviour
         isColiding = false;
     }
 
-    private void Knock(Collider2D other) {
-        Rigidbody2D player = other.GetComponent<Rigidbody2D>();
+    public void Knock(Collider2D other) {
+        Rigidbody2D otherRb = other.GetComponent<Rigidbody2D>();
+        otherRb.isKinematic = false;
 
-        if(player != null) {
-            
-            Vector2 difference = (player.transform.position - transform.position).normalized * thrust;
-            
-            PlayerController playerController = other.GetComponent<PlayerController>();
+        Vector2 difference = (otherRb.transform.position - transform.position).normalized * thrust;
 
-            if(playerController != null) {
-                playerController.canMove = false;
-                playerController.TakeDamage(5);
-            }
+        Debug.Log("asdasfasf");
 
-            player.AddForce(difference, ForceMode2D.Impulse);
+        if(otherRb != null) {
+            // se quem vai ser empurrado for o player
+            if(other.CompareTag("Player")) {
+                PlayerController playerController = other.GetComponent<PlayerController>();
+
+                if(playerController != null) {
+                    playerController.canMove = false;
+                    playerController.TakeDamage(5);
+                }
+            // se quem vai ser empurrado for o enemy
+            } else if(other.CompareTag("Enemy")) {
+                EnemyMovement enemyController = other.GetComponent<EnemyMovement>();
+                enemyController.canMove = false;
+                Debug.Log("asdasfasf");
+            }    
+
+            otherRb.AddForce(difference, ForceMode2D.Impulse);
 
             StartCoroutine(KnockCo(other));
         }
     }
 
     private IEnumerator KnockCo(Collider2D other) {
-        Rigidbody2D player = other.GetComponent<Rigidbody2D>();
+        Rigidbody2D otherRb = other.GetComponent<Rigidbody2D>();
 
-        if(player != null) {
+        if(otherRb != null) {
             yield return new WaitForSeconds(0.2f);
-            player.velocity = Vector2.zero;
+            otherRb.velocity = Vector2.zero;
 
-            PlayerController playerController = other.GetComponent<PlayerController>();
-            playerController.canMove = true;
+            if(other.CompareTag("Player")) {
+                PlayerController playerController = other.GetComponent<PlayerController>();
+                playerController.canMove = true;
+            } else {
+                EnemyMovement enemyController = other.GetComponent<EnemyMovement>();
+                enemyController.canMove = true;
+            }
         }
-
+        otherRb.isKinematic = true;
         isColiding = false;
     }
 }

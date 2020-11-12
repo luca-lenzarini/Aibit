@@ -8,6 +8,8 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 1f;
     public float movementeSpeed = 5f;
 
+    public bool canMove = true;
+
 
     //public Animator animator;
     Transform target;
@@ -22,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
         
         float distanceFromTarget = Vector3.Distance(target.position, transform.position);
 
-        if(distanceFromTarget <= visualField && distanceFromTarget > attackRange) {
+        if(canMove && (distanceFromTarget <= visualField && distanceFromTarget > attackRange)) {
             FollowPlayer();
         }
     }
