@@ -28,8 +28,6 @@ public class Knockback : MonoBehaviour
 
         Vector2 difference = (otherRb.transform.position - transform.position).normalized * thrust;
 
-        Debug.Log("asdasfasf");
-
         if(otherRb != null) {
             // se quem vai ser empurrado for o player
             if(other.CompareTag("Player")) {
@@ -43,7 +41,6 @@ public class Knockback : MonoBehaviour
             } else if(other.CompareTag("Enemy")) {
                 EnemyMovement enemyController = other.GetComponent<EnemyMovement>();
                 enemyController.canMove = false;
-                Debug.Log("asdasfasf");
             }    
 
             otherRb.AddForce(difference, ForceMode2D.Impulse);
