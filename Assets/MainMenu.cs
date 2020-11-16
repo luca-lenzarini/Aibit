@@ -11,5 +11,8 @@ public class MainMenu : MonoBehaviour
 
         Debug.Log("clicou");
     }
-    
+
+    public void QuitGame() {
+        Application.Quit();
+    }
 }
