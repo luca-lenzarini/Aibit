@@ -8,6 +8,8 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 1f;
     public float movementeSpeed = 5f;
 
+    public Animator animator;
+
     public bool canMove = true;
 
 
@@ -26,15 +28,23 @@ public class EnemyMovement : MonoBehaviour
 
         if(canMove && (distanceFromTarget <= visualField && distanceFromTarget > attackRange)) {
             FollowPlayer();
+        } else {
+            animator.SetFloat("Speed", 0);
         }
     }
 
     public void FollowPlayer() {
         transform.position = Vector3.MoveTowards(transform.position, target.position, movementeSpeed * Time.deltaTime);
 
-        // TODO: enemy animation
-        // Define the animation it should be using to face the target
-        //animator.SetFloat("Horizontal", target.position.x - transform.position.x);
-        //animator.SetFloat("Vertical", target.position.y - transform.position.y);
+        Vector2 movement = new Vector2(target.position.x - transform.position.x, target.position.y - transform.position.y);
+
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        if(movement != Vector2.zero) {
+            animator.SetFloat("LastMoveX", movement.x);
+            animator.SetFloat("LastMoveY", movement.y);
+        }
     }
 }
