@@ -24,7 +24,6 @@ public class Knockback : MonoBehaviour
 
     public void Knock(Collider2D other) {
         Rigidbody2D otherRb = other.GetComponent<Rigidbody2D>();
-        otherRb.isKinematic = false;
 
         Vector2 difference = (otherRb.transform.position - transform.position).normalized * thrust;
 
@@ -37,11 +36,7 @@ public class Knockback : MonoBehaviour
                     playerController.canMove = false;
                     playerController.TakeDamage(5);
                 }
-            // se quem vai ser empurrado for o enemy
-            } else if(other.CompareTag("Enemy")) {
-                EnemyMovement enemyController = other.GetComponent<EnemyMovement>();
-                enemyController.canMove = false;
-            }    
+            }
 
             otherRb.AddForce(difference, ForceMode2D.Impulse);
 
@@ -59,12 +54,8 @@ public class Knockback : MonoBehaviour
             if(other.CompareTag("Player")) {
                 PlayerController playerController = other.GetComponent<PlayerController>();
                 playerController.canMove = true;
-            } else {
-                EnemyMovement enemyController = other.GetComponent<EnemyMovement>();
-                enemyController.canMove = true;
             }
         }
-        otherRb.isKinematic = true;
         isColiding = false;
     }
 }
