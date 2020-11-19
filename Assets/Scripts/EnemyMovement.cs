@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float visualField = 10f;
-    public float attackRange = 1f;
+    public float attackRange = 0f;
     public float movementeSpeed = 5f;
 
     public Animator animator;
